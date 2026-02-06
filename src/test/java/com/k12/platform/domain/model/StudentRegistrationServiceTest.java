@@ -10,6 +10,8 @@ import com.k12.platform.domain.model.valueobjects.StudentNumber;
 import com.k12.platform.domain.model.valueobjects.StudentPersonalInfo;
 import com.k12.platform.domain.model.valueobjects.UserId;
 import java.time.LocalDate;
+
+import com.k12.platform.domain.port.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

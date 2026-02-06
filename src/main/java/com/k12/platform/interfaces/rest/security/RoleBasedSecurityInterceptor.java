@@ -1,12 +1,12 @@
 package com.k12.platform.interfaces.rest.security;
 
-import com.k12.platform.domain.model.ClassRepository;
+import com.k12.platform.domain.port.ClassRepository;
 import com.k12.platform.domain.model.ParentStudentAssociation;
-import com.k12.platform.domain.model.ParentStudentAssociationRepository;
+import com.k12.platform.domain.port.ParentStudentAssociationRepository;
 import com.k12.platform.domain.model.Student;
-import com.k12.platform.domain.model.StudentRepository;
+import com.k12.platform.domain.port.StudentRepository;
 import com.k12.platform.domain.model.TeacherClassAssignment;
-import com.k12.platform.domain.model.TeacherClassAssignmentRepository;
+import com.k12.platform.domain.port.TeacherClassAssignmentRepository;
 import com.k12.platform.domain.model.valueobjects.ClassId;
 import com.k12.platform.domain.model.valueobjects.StudentId;
 import com.k12.platform.domain.model.valueobjects.UserId;

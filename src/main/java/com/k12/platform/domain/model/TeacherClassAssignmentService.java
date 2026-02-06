@@ -3,6 +3,7 @@ package com.k12.platform.domain.model;
 import com.k12.platform.domain.model.valueobjects.ClassId;
 import com.k12.platform.domain.model.valueobjects.TeacherRole;
 import com.k12.platform.domain.model.valueobjects.UserId;
+import com.k12.platform.domain.port.TeacherClassAssignmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.LocalDate;
 

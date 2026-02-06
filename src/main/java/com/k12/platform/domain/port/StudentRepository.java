@@ -1,5 +1,6 @@
-package com.k12.platform.domain.model;
+package com.k12.platform.domain.port;
 
+import com.k12.platform.domain.model.Student;
 import com.k12.platform.domain.model.valueobjects.StudentId;
 import com.k12.platform.domain.model.valueobjects.UserId;
 import java.util.List;

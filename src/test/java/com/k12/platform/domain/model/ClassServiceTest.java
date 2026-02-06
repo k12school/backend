@@ -9,6 +9,8 @@ import com.k12.platform.domain.model.valueobjects.ClassId;
 import com.k12.platform.domain.model.valueobjects.ClassName;
 import com.k12.platform.domain.model.valueobjects.GradeLevel;
 import java.time.Instant;
+
+import com.k12.platform.domain.port.ClassRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

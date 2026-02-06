@@ -1,6 +1,7 @@
 package com.k12.platform.domain.model;
 
 import com.k12.platform.domain.model.valueobjects.*;
+import com.k12.platform.domain.port.ClassRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Instant;
 

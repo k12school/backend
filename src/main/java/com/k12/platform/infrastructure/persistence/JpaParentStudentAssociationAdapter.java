@@ -1,7 +1,7 @@
 package com.k12.platform.infrastructure.persistence;
 
 import com.k12.platform.domain.model.ParentStudentAssociation;
-import com.k12.platform.domain.model.ParentStudentAssociationRepository;
+import com.k12.platform.domain.port.ParentStudentAssociationRepository;
 import com.k12.platform.domain.model.valueobjects.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

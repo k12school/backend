@@ -9,6 +9,8 @@ import com.k12.platform.domain.model.valueobjects.RelationshipType;
 import com.k12.platform.domain.model.valueobjects.StudentId;
 import com.k12.platform.domain.model.valueobjects.UserId;
 import java.util.Optional;
+
+import com.k12.platform.domain.port.ParentStudentAssociationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -7,13 +7,13 @@ import com.k12.platform.infrastructure.persistence.JpaParentStudentAssociationAd
 import com.k12.platform.interfaces.rest.dto.CreateParentStudentAssociationRequest;
 import com.k12.platform.interfaces.rest.dto.ErrorResponse;
 import com.k12.platform.interfaces.rest.dto.ParentStudentAssociationResponse;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 /**
@@ -22,13 +22,11 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 @Path("/api/parent-student-associations")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor
 public class ParentStudentAssociationResource {
 
-    @Inject
-    JpaParentStudentAssociationAdapter repository;
-
-    @Inject
-    ParentStudentAssociationService service;
+    private final JpaParentStudentAssociationAdapter repository;
+    private final ParentStudentAssociationService service;
 
     @POST
     @Operation(summary = "Associate parent with student", description = "Creates a new parent-student association")

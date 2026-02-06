@@ -7,6 +7,7 @@ import com.k12.platform.domain.model.exceptions.InvalidCredentialsException;
 import com.k12.platform.domain.port.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Domain service for authentication.
@@ -14,13 +15,10 @@ import java.util.Optional;
  * NOTE: @ApplicationScoped required for CDI injection in Quarkus.
  */
 @ApplicationScoped
+@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-
-    public AuthenticationService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     /**
      * Authenticate user with email and password.

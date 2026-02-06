@@ -1,6 +1,7 @@
 package com.k12.platform.domain.model;
 
 import com.k12.platform.domain.model.valueobjects.*;
+import com.k12.platform.domain.port.PasswordResetTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**

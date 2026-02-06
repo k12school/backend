@@ -12,11 +12,11 @@ import com.k12.platform.interfaces.rest.dto.LoginRequest;
 import com.k12.platform.interfaces.rest.dto.LoginResponse;
 import com.k12.platform.interfaces.rest.dto.UserResponse;
 import com.k12.platform.interfaces.rest.jwt.TokenService;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST resource for authentication.
@@ -25,13 +25,11 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/auth")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor
 public class AuthResource {
 
-    @Inject
-    AuthenticationService authenticationService;
-
-    @Inject
-    TokenService tokenService;
+    private final AuthenticationService authenticationService;
+    private final TokenService tokenService;
 
     @POST
     @Path("/login")

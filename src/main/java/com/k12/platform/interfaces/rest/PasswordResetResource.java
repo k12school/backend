@@ -9,11 +9,11 @@ import com.k12.platform.domain.port.UserRepository;
 import com.k12.platform.interfaces.rest.dto.ErrorResponse;
 import com.k12.platform.interfaces.rest.dto.PasswordResetConfirmRequest;
 import com.k12.platform.interfaces.rest.dto.PasswordResetRequestRequest;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 /**
@@ -22,13 +22,11 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 @Path("/api/auth/password-reset")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor
 public class PasswordResetResource {
 
-    @Inject
-    PasswordResetService passwordResetService;
-
-    @Inject
-    UserRepository userRepository;
+    private final PasswordResetService passwordResetService;
+    private final UserRepository userRepository;
 
     @POST
     @Path("/request")

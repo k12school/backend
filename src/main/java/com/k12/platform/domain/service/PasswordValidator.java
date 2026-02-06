@@ -1,16 +1,16 @@
 package com.k12.platform.domain.service;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Domain service for password validation.
  * Pure Java, no framework dependencies.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PasswordValidator {
 
     private static final int MIN_LENGTH = 8;
-
-    private PasswordValidator() {
-        // Utility class
-    }
 
     /**
      * Validates password strength.

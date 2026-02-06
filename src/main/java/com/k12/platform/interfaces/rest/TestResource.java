@@ -1,19 +1,19 @@
 package com.k12.platform.interfaces.rest;
 
 import com.k12.platform.domain.port.UserRepository;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Simple test endpoint to verify database connectivity.
  */
 @Path("/api/test")
+@RequiredArgsConstructor
 public class TestResource {
 
-    @Inject
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @GET
     @Path("/db")

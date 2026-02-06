@@ -4,6 +4,7 @@ import com.k12.platform.domain.model.valueobjects.AssociationId;
 import com.k12.platform.domain.model.valueobjects.RelationshipType;
 import com.k12.platform.domain.model.valueobjects.StudentId;
 import com.k12.platform.domain.model.valueobjects.UserId;
+import com.k12.platform.domain.port.ParentStudentAssociationRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**

@@ -7,7 +7,6 @@ import com.k12.platform.infrastructure.persistence.JpaTeacherClassAssignmentAdap
 import com.k12.platform.interfaces.rest.dto.CreateTeacherClassAssignmentRequest;
 import com.k12.platform.interfaces.rest.dto.ErrorResponse;
 import com.k12.platform.interfaces.rest.dto.TeacherClassAssignmentResponse;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,6 +14,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 /**
@@ -23,13 +23,11 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 @Path("/api/teacher-class-assignments")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor
 public class TeacherClassAssignmentResource {
 
-    @Inject
-    JpaTeacherClassAssignmentAdapter repository;
-
-    @Inject
-    TeacherClassAssignmentService service;
+    private final JpaTeacherClassAssignmentAdapter repository;
+    private final TeacherClassAssignmentService service;
 
     @POST
     @Operation(summary = "Assign teacher to class", description = "Creates a new teacher-class assignment")

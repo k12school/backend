@@ -5,6 +5,7 @@ import com.k12.platform.domain.model.valueobjects.StudentId;
 import com.k12.platform.domain.model.valueobjects.StudentNumber;
 import com.k12.platform.domain.model.valueobjects.StudentPersonalInfo;
 import com.k12.platform.domain.model.valueobjects.UserId;
+import com.k12.platform.domain.port.StudentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Instant;
 import java.time.LocalDate;

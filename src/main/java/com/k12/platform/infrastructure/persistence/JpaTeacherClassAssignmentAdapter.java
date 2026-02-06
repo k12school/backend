@@ -1,7 +1,7 @@
 package com.k12.platform.infrastructure.persistence;
 
 import com.k12.platform.domain.model.TeacherClassAssignment;
-import com.k12.platform.domain.model.TeacherClassAssignmentRepository;
+import com.k12.platform.domain.port.TeacherClassAssignmentRepository;
 import com.k12.platform.domain.model.valueobjects.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

@@ -1,5 +1,6 @@
-package com.k12.platform.domain.model;
+package com.k12.platform.domain.port;
 
+import com.k12.platform.domain.model.PasswordResetToken;
 import com.k12.platform.domain.model.valueobjects.ResetToken;
 import com.k12.platform.domain.model.valueobjects.ResetTokenId;
 import com.k12.platform.domain.model.valueobjects.UserId;

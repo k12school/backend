@@ -5,6 +5,7 @@ import com.k12.platform.domain.model.commands.RegisterUserCommand;
 import com.k12.platform.domain.model.exceptions.UserAlreadyExistsException;
 import com.k12.platform.domain.port.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Domain service for user registration.
@@ -12,14 +13,10 @@ import jakarta.enterprise.context.ApplicationScoped;
  * NOTE: @ApplicationScoped required for CDI injection in Quarkus.
  */
 @ApplicationScoped
+@RequiredArgsConstructor
 public class UserRegistrationService {
 
     private final UserRepository userRepository;
-
-    public UserRegistrationService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     /**
      * Register a new user.
      * @throws UserAlreadyExistsException if email already exists

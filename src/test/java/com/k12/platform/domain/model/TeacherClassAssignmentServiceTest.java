@@ -8,6 +8,8 @@ import com.k12.platform.domain.model.valueobjects.ClassId;
 import com.k12.platform.domain.model.valueobjects.TeacherRole;
 import com.k12.platform.domain.model.valueobjects.UserId;
 import java.time.LocalDate;
+
+import com.k12.platform.domain.port.TeacherClassAssignmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

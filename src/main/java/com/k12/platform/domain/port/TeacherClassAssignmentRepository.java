@@ -1,5 +1,6 @@
-package com.k12.platform.domain.model;
+package com.k12.platform.domain.port;
 
+import com.k12.platform.domain.model.TeacherClassAssignment;
 import com.k12.platform.domain.model.valueobjects.AssociationId;
 import com.k12.platform.domain.model.valueobjects.ClassId;
 import com.k12.platform.domain.model.valueobjects.UserId;

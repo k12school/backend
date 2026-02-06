@@ -13,11 +13,11 @@ import com.k12.platform.interfaces.rest.dto.CreateUserRequest;
 import com.k12.platform.interfaces.rest.dto.ErrorResponse;
 import com.k12.platform.interfaces.rest.dto.UserResponse;
 import com.k12.platform.interfaces.rest.security.RequireRole;
-import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST resource for user management.
@@ -26,10 +26,10 @@ import jakarta.ws.rs.core.Response;
 @Path("/api/users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor
 public class UserResource {
 
-    @Inject
-    UserRegistrationService userRegistrationService;
+    private final UserRegistrationService userRegistrationService;
 
     @POST
     @Path("/teacher")
