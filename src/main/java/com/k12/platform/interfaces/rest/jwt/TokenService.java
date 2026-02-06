@@ -4,8 +4,8 @@ import com.k12.platform.domain.model.User;
 import com.k12.platform.domain.model.valueobjects.UserId;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Set;
 import org.eclipse.microprofile.jwt.Claims;
 
@@ -29,7 +29,7 @@ public class TokenService {
                 .claim("firstName", user.firstName())
                 .claim("lastName", user.lastName())
                 .issuedAt(Instant.now())
-                .expiresIn(24, ChronoUnit.HOURS)
+                .expiresIn(Duration.ofHours(12))
                 .sign();
     }
 
@@ -42,8 +42,30 @@ public class TokenService {
      * @return user ID
      */
     public UserId extractUserId(String token) {
-        // Extract subject claim which contains the user ID
-        String subject = Jwt.claims(token).getSubject();
+        // Decode and parse the JWT without verification
+        // Note: This is for convenience - actual validation happens
+        // when the token is used in authenticated requests
+        String[] parts = token.split("\\.");
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Invalid JWT token");
+        }
+
+        // Decode the payload (second part)
+        String payload =
+                new String(java.util.Base64.getUrlDecoder().decode(parts[1]), java.nio.charset.StandardCharsets.UTF_8);
+
+        // Extract subject from JSON payload
+        // Simple parsing for "sub":"value" pattern
+        String subPattern = "\"sub\":\"";
+        int subIndex = payload.indexOf(subPattern);
+        if (subIndex == -1) {
+            throw new IllegalArgumentException("Subject claim not found in token");
+        }
+
+        int startIndex = subIndex + subPattern.length();
+        int endIndex = payload.indexOf("\"", startIndex);
+        String subject = payload.substring(startIndex, endIndex);
+
         return UserId.of(subject);
     }
 }
