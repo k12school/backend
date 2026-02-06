@@ -3,6 +3,8 @@ package com.k12.platform.interfaces.rest.security;
 import com.k12.platform.domain.model.ClassRepository;
 import com.k12.platform.domain.model.ParentStudentAssociation;
 import com.k12.platform.domain.model.ParentStudentAssociationRepository;
+import com.k12.platform.domain.model.Student;
+import com.k12.platform.domain.model.StudentRepository;
 import com.k12.platform.domain.model.TeacherClassAssignment;
 import com.k12.platform.domain.model.TeacherClassAssignmentRepository;
 import com.k12.platform.domain.model.valueobjects.ClassId;
@@ -34,6 +36,9 @@ public class RoleBasedSecurityInterceptor {
 
     @Inject
     ClassRepository classRepository;
+
+    @Inject
+    StudentRepository studentRepository;
 
     @Inject
     TeacherClassAssignmentRepository teacherClassAssignmentRepository;
@@ -249,15 +254,25 @@ public class RoleBasedSecurityInterceptor {
      * Check if a student is in a class assigned to this teacher.
      */
     private boolean isStudentInTeacherClass(UserId teacherId, StudentId studentId) {
+        // Get the student to find their class
+        Optional<Student> studentOpt = studentRepository.findById(studentId);
+        if (studentOpt.isEmpty()) {
+            return false;
+        }
+
+        Student student = studentOpt.get();
+        UserId studentClassId = student.classId();
+
         // Get teacher's assigned classes
         List<TeacherClassAssignment> assignments = teacherClassAssignmentRepository.findByTeacherId(teacherId);
 
-        // For each assigned class, check if student is in it
+        // Check if student's class matches any of the teacher's assigned classes
         for (TeacherClassAssignment assignment : assignments) {
-            // Note: We'd need to query the StudentRepository to check student's class
-            // For now, we'll allow access if teacher has any class assignment
-            // In production, you'd check: student.classId == assignment.classId()
-            return true;
+            // Compare the underlying UUID values since Student.classId is UserId
+            // and TeacherClassAssignment.classId is ClassId
+            if (studentClassId.value().equals(assignment.classId().value())) {
+                return true;
+            }
         }
 
         return false;

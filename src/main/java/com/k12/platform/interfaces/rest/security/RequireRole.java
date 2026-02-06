@@ -9,16 +9,15 @@ import java.lang.annotation.Target;
 /**
  * Annotation to specify required roles for endpoint access.
  * Use on REST endpoint methods to enforce role-based access control.
- *
+ * <p>
  * Example:
  * <pre>
  * {@code
  * @GET
  * @Path("/students/{id}")
- * @RequireRole({UserRole.ADMIN, UserRole.TEACHER})
+ * @RequireRole({UserRole.ADMIN, UserRole.TEACHER )
  * public Response getStudent(@PathParam("id") String id) {
- *     // Only admins and teachers can access
- * }
+ *      Only admins and teachers can access
  * }
  * </pre>
  */
