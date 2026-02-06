@@ -55,25 +55,25 @@ public class UserResource {
     private Response createUser(CreateUserRequest request, UserRole role) {
         try {
             // Validate required fields
-            if (request.getEmail() == null || request.getEmail().isBlank()) {
+            if (request.email() == null || request.email().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Missing required field: email"))
                         .build();
             }
 
-            if (request.getPassword() == null || request.getPassword().isBlank()) {
+            if (request.password() == null || request.password().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Missing required field: password"))
                         .build();
             }
 
-            if (request.getFirstName() == null || request.getFirstName().isBlank()) {
+            if (request.firstName() == null || request.firstName().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Missing required field: firstName"))
                         .build();
             }
 
-            if (request.getLastName() == null || request.getLastName().isBlank()) {
+            if (request.lastName() == null || request.lastName().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Missing required field: lastName"))
                         .build();
@@ -82,7 +82,7 @@ public class UserResource {
             // Validate email format
             EmailAddress email;
             try {
-                email = EmailAddress.of(request.getEmail());
+                email = EmailAddress.of(request.email());
             } catch (InvalidEmailException e) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Invalid email format"))
@@ -91,7 +91,7 @@ public class UserResource {
 
             // Validate password strength
             try {
-                PasswordValidator.validate(request.getPassword());
+                PasswordValidator.validate(request.password());
             } catch (IllegalArgumentException e) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse(e.getMessage()))
@@ -99,11 +99,11 @@ public class UserResource {
             }
 
             // Hash password
-            PasswordHash passwordHash = PasswordHash.hash(request.getPassword());
+            PasswordHash passwordHash = PasswordHash.hash(request.password());
 
             // Map HTTP request → domain command
             var command =
-                    new RegisterUserCommand(email, passwordHash, request.getFirstName(), request.getLastName(), role);
+                    new RegisterUserCommand(email, passwordHash, request.firstName(), request.lastName(), role);
 
             // Delegate to domain service
             User user = userRegistrationService.register(command);

@@ -36,13 +36,13 @@ public class AuthResource {
     public Response login(@Valid LoginRequest request) {
         try {
             // Validate input
-            if (request.getEmail() == null || request.getEmail().isBlank()) {
+            if (request.email() == null || request.email().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Email is required"))
                         .build();
             }
 
-            if (request.getPassword() == null || request.getPassword().isBlank()) {
+            if (request.password() == null || request.password().isBlank()) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Password is required"))
                         .build();
@@ -51,7 +51,7 @@ public class AuthResource {
             // Validate email format
             EmailAddress email;
             try {
-                email = EmailAddress.of(request.getEmail());
+                email = EmailAddress.of(request.email());
             } catch (DomainException e) {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity(new ErrorResponse("Invalid email format"))
@@ -59,7 +59,7 @@ public class AuthResource {
             }
 
             // Map HTTP request → domain command
-            var command = new LoginCommand(email, request.getPassword());
+            var command = new LoginCommand(email, request.password());
 
             // Delegate to domain service
             User user = authenticationService.login(command);

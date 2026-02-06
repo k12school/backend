@@ -122,7 +122,7 @@ class AuthResourceTest {
                 .body("user.role", is("TEACHER"))
                 .body("user.firstName", is("John"))
                 .body("user.lastName", is("Doe"))
-                .body("user.active", is(true));
+                .body("user.isActive", is(true));
     }
 
     @Test

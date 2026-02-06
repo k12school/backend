@@ -56,7 +56,7 @@ class UserResourceTest {
                 .body("role", is("TEACHER"))
                 .body("firstName", is("John"))
                 .body("lastName", is("Doe"))
-                .body("active", is(true));
+                .body("isActive", is(true));
     }
 
     @Test
