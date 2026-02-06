@@ -1,0 +1,14 @@
+package com.k12.platform.domain.model.exceptions;
+
+/**
+ * Base class for domain exceptions.
+ */
+public class DomainException extends RuntimeException {
+    public DomainException(String message) {
+        super(message);
+    }
+
+    public DomainException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
