@@ -2,37 +2,48 @@ package com.k12.platform.interfaces.rest.jwt;
 
 import com.k12.platform.domain.model.User;
 import com.k12.platform.domain.model.valueobjects.UserId;
+import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Set;
+import org.eclipse.microprofile.jwt.Claims;
 
 /**
- * Service for generating JWT tokens.
- * Simplified implementation for testing.
+ * Service for generating and parsing JWT tokens using SmallRye JWT.
  */
 @ApplicationScoped
 public class TokenService {
 
-    // Simple Base64 encoder for demo purposes
-    private String base64Encode(String input) {
-        return java.util.Base64.getEncoder().encodeToString(input.getBytes(StandardCharsets.UTF_8));
-    }
-
+    /**
+     * Generate a signed JWT token for the authenticated user.
+     *
+     * @param user the user to generate token for
+     * @return signed JWT string
+     */
     public String generateToken(User user) {
-        // For now, return a simple token format (user:timestamp)
-        // In production, use proper JWT signing
-        long expiration = Instant.now().plus(24, ChronoUnit.HOURS).toEpochMilli();
-
-        String tokenContent =
-                user.userId().toString() + ":" + expiration + ":" + user.email().value();
-        return base64Encode(tokenContent);
+        return Jwt.upn(user.email().value())
+                .subject(user.userId().toString())
+                .claim(Claims.groups.name(), Set.of(user.role().name()))
+                .claim("email", user.email().value())
+                .claim("firstName", user.firstName())
+                .claim("lastName", user.lastName())
+                .issuedAt(Instant.now())
+                .expiresIn(24, ChronoUnit.HOURS)
+                .sign();
     }
 
+    /**
+     * Extract user ID from JWT token.
+     * This is a simplified extraction - in production, JWT validation
+     * is handled by the SmallRye JWT extension automatically.
+     *
+     * @param token raw JWT token string
+     * @return user ID
+     */
     public UserId extractUserId(String token) {
-        // Extract user ID from simple token format
-        String decoded = new String(java.util.Base64.getDecoder().decode(token), StandardCharsets.UTF_8);
-        String[] parts = decoded.split(":", 3);
-        return UserId.of(parts[0]);
+        // Extract subject claim which contains the user ID
+        String subject = Jwt.claims(token).getSubject();
+        return UserId.of(subject);
     }
 }

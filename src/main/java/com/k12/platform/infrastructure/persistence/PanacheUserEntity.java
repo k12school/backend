@@ -3,7 +3,6 @@ package com.k12.platform.infrastructure.persistence;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,18 +52,4 @@ public class PanacheUserEntity extends PanacheEntityBase {
 
     @Column(name = "last_login")
     private Instant lastLoginAt;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        PanacheUserEntity that = (PanacheUserEntity) o;
-        return Objects.equals(email, that.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email);
-    }
 }
