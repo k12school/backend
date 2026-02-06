@@ -198,7 +198,7 @@ class TeacherClassAssignmentTest {
 
     @Test
     @DisplayName("Should set createdAt timestamp on creation")
-    void shouldSetCreatedAtTimestampOnCreation() {
+    void shouldSetGetCreatedAtTimestampOnCreation() {
         UserId teacherId = UserId.generate();
         ClassId classId = ClassId.generate();
         TeacherRole role = TeacherRole.assistantTeacher();

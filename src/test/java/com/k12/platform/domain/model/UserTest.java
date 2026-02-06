@@ -79,7 +79,7 @@ class UserTest {
         boolean loggedIn = user.login("WrongPassword123!");
 
         assertFalse(loggedIn);
-        assertEquals(initialEventCount, user.getDomainEvents().size()); // No new event
+        assertEquals(initialEventCount, user.getDomainEvents().size());
     }
 
     @Test
@@ -91,7 +91,7 @@ class UserTest {
         boolean loggedIn = user.login(null);
 
         assertFalse(loggedIn);
-        assertEquals(initialEventCount, user.getDomainEvents().size()); // No new event
+        assertEquals(initialEventCount, user.getDomainEvents().size());
     }
 
     @Test

@@ -51,9 +51,9 @@ class ClassServiceTest {
         Class result = classService.createClass(className, gradeLevel, academicYear);
 
         assertNotNull(result);
-        assertEquals(className, result.name());
-        assertEquals(gradeLevel, result.gradeLevel());
-        assertEquals(academicYear, result.academicYear());
+        assertEquals(className, result.getName());
+        assertEquals(gradeLevel, result.getGradeLevel());
+        assertEquals(academicYear, result.getAcademicYear());
         verify(classRepository)
                 .existsByNameAndGradeLevelAndAcademicYear(className.value(), gradeLevel.value(), academicYear.value());
         verify(classRepository).save(any(Class.class));
@@ -97,10 +97,10 @@ class ClassServiceTest {
                 classService.reconstituteClass(classId, className, gradeLevel, academicYear, createdAt, updatedAt);
 
         assertNotNull(result);
-        assertEquals(classId, result.classId());
-        assertEquals(className, result.name());
-        assertEquals(gradeLevel, result.gradeLevel());
-        assertEquals(academicYear, result.academicYear());
+        assertEquals(classId, result.getClassId());
+        assertEquals(className, result.getName());
+        assertEquals(gradeLevel, result.getGradeLevel());
+        assertEquals(academicYear, result.getAcademicYear());
     }
 
     @Test

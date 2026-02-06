@@ -21,7 +21,7 @@ public class JpaClassAdapter implements ClassRepository {
     @Transactional
     public void save(Class clazz) {
         PanacheClassEntity existing =
-                PanacheClassEntity.findById(clazz.classId().value());
+                PanacheClassEntity.findById(clazz.getClassId().value());
 
         if (existing == null) {
             // Insert new entity
@@ -79,17 +79,17 @@ public class JpaClassAdapter implements ClassRepository {
 
     private PanacheClassEntity toEntity(Class clazz) {
         PanacheClassEntity entity = new PanacheClassEntity();
-        entity.setId(clazz.classId().value());
-        entity.setName(clazz.name().value());
-        entity.setGradeLevel(clazz.gradeLevel().value());
-        entity.setAcademicYear(clazz.academicYear().value());
+        entity.setId(clazz.getClassId().value());
+        entity.setName(clazz.getName().value());
+        entity.setGradeLevel(clazz.getGradeLevel().value());
+        entity.setAcademicYear(clazz.getAcademicYear().value());
         return entity;
     }
 
     private void updateFromDomain(PanacheClassEntity entity, Class clazz) {
-        entity.setName(clazz.name().value());
-        entity.setGradeLevel(clazz.gradeLevel().value());
-        entity.setAcademicYear(clazz.academicYear().value());
+        entity.setName(clazz.getName().value());
+        entity.setGradeLevel(clazz.getGradeLevel().value());
+        entity.setAcademicYear(clazz.getAcademicYear().value());
     }
 
     private Class toDomain(PanacheClassEntity entity) {

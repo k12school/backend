@@ -26,12 +26,12 @@ class ClassTest {
 
         Class clazz = Class.create(name, gradeLevel, academicYear);
 
-        assertNotNull(clazz.classId());
-        assertEquals(name, clazz.name());
-        assertEquals(gradeLevel, clazz.gradeLevel());
-        assertEquals(academicYear, clazz.academicYear());
-        assertNotNull(clazz.createdAt());
-        assertNotNull(clazz.updatedAt());
+        assertNotNull(clazz.getClassId());
+        assertEquals(name, clazz.getName());
+        assertEquals(gradeLevel, clazz.getGradeLevel());
+        assertEquals(academicYear, clazz.getAcademicYear());
+        assertNotNull(clazz.getCreatedAt());
+        assertNotNull(clazz.getUpdatedAt());
     }
 
     @Test
@@ -60,10 +60,10 @@ class ClassTest {
 
         Class clazz = Class.reconstitute(classId, name, gradeLevel, academicYear, createdAt, updatedAt);
 
-        assertEquals(classId, clazz.classId());
-        assertEquals(name, clazz.name());
-        assertEquals(gradeLevel, clazz.gradeLevel());
-        assertEquals(academicYear, clazz.academicYear());
+        assertEquals(classId, clazz.getClassId());
+        assertEquals(name, clazz.getName());
+        assertEquals(gradeLevel, clazz.getGradeLevel());
+        assertEquals(academicYear, clazz.getAcademicYear());
         assertEquals(0, clazz.getDomainEvents().size()); // No events on reconstitution
     }
 
@@ -103,13 +103,13 @@ class ClassTest {
         for (int grade = 0; grade <= 12; grade++) {
             GradeLevel gradeLevel = GradeLevel.of(grade);
             Class clazz = Class.create(name, gradeLevel, academicYear);
-            assertEquals(gradeLevel, clazz.gradeLevel());
+            assertEquals(gradeLevel, clazz.getGradeLevel());
         }
     }
 
     @Test
     @DisplayName("Should handle different academic years")
-    void shouldHandleDifferentAcademicYears() {
+    void shouldHandleDifferentGetAcademicYears() {
         ClassName name = ClassName.of("5-A");
         GradeLevel gradeLevel = GradeLevel.of(5);
 
@@ -121,9 +121,9 @@ class ClassTest {
         Class class2 = Class.create(name, gradeLevel, year2);
         Class class3 = Class.create(name, gradeLevel, year3);
 
-        assertEquals(year1, class1.academicYear());
-        assertEquals(year2, class2.academicYear());
-        assertEquals(year3, class3.academicYear());
+        assertEquals(year1, class1.getAcademicYear());
+        assertEquals(year2, class2.getAcademicYear());
+        assertEquals(year3, class3.getAcademicYear());
     }
 
     @Test
@@ -140,14 +140,14 @@ class ClassTest {
         Class class2 = Class.create(name2, gradeLevel, academicYear);
         Class class3 = Class.create(name3, gradeLevel, academicYear);
 
-        assertEquals(name1, class1.name());
-        assertEquals(name2, class2.name());
-        assertEquals(name3, class3.name());
+        assertEquals(name1, class1.getName());
+        assertEquals(name2, class2.getName());
+        assertEquals(name3, class3.getName());
     }
 
     @Test
     @DisplayName("Should have unique class IDs")
-    void shouldHaveUniqueClassIds() {
+    void shouldHaveUniqueGetClassIds() {
         ClassName name = ClassName.of("5-A");
         GradeLevel gradeLevel = GradeLevel.of(5);
         AcademicYear academicYear = AcademicYear.of("2024-2025");
@@ -155,7 +155,7 @@ class ClassTest {
         Class class1 = Class.create(name, gradeLevel, academicYear);
         Class class2 = Class.create(name, gradeLevel, academicYear);
 
-        assertNotEquals(class1.classId(), class2.classId());
+        assertNotEquals(class1.getClassId(), class2.getClassId());
     }
 
     @Test
@@ -169,11 +169,13 @@ class ClassTest {
         Class clazz = Class.create(name, gradeLevel, academicYear);
         Instant afterCreation = Instant.now();
 
-        assertNotNull(clazz.createdAt());
-        assertNotNull(clazz.updatedAt());
-        assertTrue(clazz.createdAt().isAfter(beforeCreation.minusMillis(100)));
-        assertTrue(clazz.createdAt().isBefore(afterCreation.plusMillis(100)));
+        assertNotNull(clazz.getCreatedAt());
+        assertNotNull(clazz.getUpdatedAt());
+        assertTrue(clazz.getCreatedAt().isAfter(beforeCreation.minusMillis(100)));
+        assertTrue(clazz.getCreatedAt().isBefore(afterCreation.plusMillis(100)));
         // createdAt and updatedAt should be approximately equal
-        assertTrue(Math.abs(clazz.createdAt().toEpochMilli() - clazz.updatedAt().toEpochMilli()) < 100);
+        assertTrue(Math.abs(clazz.getCreatedAt().toEpochMilli()
+                        - clazz.getUpdatedAt().toEpochMilli())
+                < 100);
     }
 }

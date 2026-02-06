@@ -25,9 +25,11 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 /**
  * Security interceptor that enforces @RequireRole annotations.
  * Checks:
- * 1. User is authenticated
- * 2. User has required role(s)
- * 3. User owns the resource (for non-admins)
+ * <ol>
+ * <li>User is authenticated</li>
+ * <li>User has required role(s)</li>
+ * <li>User owns the resource (for non-admins)</li>
+ * </ol>
  */
 @Interceptor
 @RequireRole
@@ -51,7 +53,6 @@ public class RoleBasedSecurityInterceptor {
 
     @AroundInvoke
     public Object enforceRoleBasedAccess(InvocationContext context) throws Exception {
-        // Get authenticated user
         JsonWebToken jwt = (JsonWebToken) securityContext.getUserPrincipal();
         if (jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED)
@@ -59,7 +60,6 @@ public class RoleBasedSecurityInterceptor {
                     .build();
         }
 
-        // Get user roles from JWT
         Collection<String> userRoles = getRolesFromToken(jwt);
         if (userRoles.isEmpty()) {
             return Response.status(Response.Status.FORBIDDEN)
@@ -67,7 +67,6 @@ public class RoleBasedSecurityInterceptor {
                     .build();
         }
 
-        // Get required roles from annotation
         RequireRole annotation = context.getMethod().getAnnotation(RequireRole.class);
         if (annotation == null) {
             annotation = context.getTarget().getClass().getAnnotation(RequireRole.class);
@@ -76,7 +75,6 @@ public class RoleBasedSecurityInterceptor {
         UserRole[] requiredRoles = annotation.value();
         boolean requireAll = annotation.requireAll();
 
-        // Check if user has required roles
         boolean hasRequiredRole = checkRoles(userRoles, requiredRoles, requireAll);
 
         if (!hasRequiredRole) {
@@ -87,7 +85,6 @@ public class RoleBasedSecurityInterceptor {
                     .build();
         }
 
-        // For non-admin users, check resource ownership
         if (!userRoles.contains("ADMIN")) {
             String ownershipError = checkResourceOwnership(context, userRoles);
             if (ownershipError != null) {
@@ -97,7 +94,6 @@ public class RoleBasedSecurityInterceptor {
             }
         }
 
-        // All checks passed, proceed with method execution
         return context.proceed();
     }
 
@@ -120,7 +116,7 @@ public class RoleBasedSecurityInterceptor {
      */
     private boolean checkRoles(Collection<String> userRoles, UserRole[] requiredRoles, boolean requireAll) {
         if (requiredRoles.length == 0) {
-            return true; // No role requirement
+            return true;
         }
 
         Set<String> requiredRoleNames =
@@ -138,14 +134,11 @@ public class RoleBasedSecurityInterceptor {
      * Returns error message if access denied, null if allowed.
      */
     private String checkResourceOwnership(InvocationContext context, Collection<String> userRoles) {
-        // Get user ID from JWT
         String userIdStr = securityContext.getUserPrincipal().getName();
         UserId userId = UserId.of(UUID.fromString(userIdStr));
 
-        // Extract resource IDs from method parameters
         Object[] parameters = context.getParameters();
 
-        // Check different resource types based on user role
         if (userRoles.contains("TEACHER")) {
             return checkTeacherResourceAccess(
                     userId, parameters, context.getMethod().getName());
@@ -163,13 +156,11 @@ public class RoleBasedSecurityInterceptor {
      * Check if teacher has access to requested resources.
      */
     private String checkTeacherResourceAccess(UserId teacherId, Object[] parameters, String methodName) {
-        // Look for classId or studentId in parameters
         UUID classId = null;
         UUID studentId = null;
 
         for (Object param : parameters) {
             if (param instanceof UUID) {
-                // Determine if this is a class or student ID based on method name
                 if (methodName.contains("Class") || methodName.toLowerCase().contains("class")) {
                     classId = (UUID) param;
                 } else if (methodName.contains("Student")
@@ -190,28 +181,25 @@ public class RoleBasedSecurityInterceptor {
             }
         }
 
-        // If accessing a class, check if teacher is assigned to it
         if (classId != null) {
             if (!isTeacherAssignedToClass(teacherId, ClassId.of(classId))) {
                 return "Teacher not assigned to this class";
             }
         }
 
-        // If accessing a student, check if student is in teacher's assigned class
         if (studentId != null) {
             if (!isStudentInTeacherClass(teacherId, StudentId.of(studentId))) {
                 return "Student not in teacher's assigned class";
             }
         }
 
-        return null; // Access granted
+        return null;
     }
 
     /**
      * Check if parent has access to requested resources.
      */
     private String checkParentResourceAccess(UserId parentId, Object[] parameters, String methodName) {
-        // Look for studentId in parameters
         UUID studentId = null;
 
         for (Object param : parameters) {
@@ -231,14 +219,13 @@ public class RoleBasedSecurityInterceptor {
             }
         }
 
-        // If accessing a student, check if parent is linked to that student
         if (studentId != null) {
             if (!isParentLinkedToStudent(parentId, StudentId.of(studentId))) {
                 return "Parent not linked to this student";
             }
         }
 
-        return null; // Access granted
+        return null;
     }
 
     /**

@@ -49,7 +49,8 @@ public class ClassResource {
             Class clazz = classService.createClass(name, gradeLevel, academicYear);
 
             ClassResponse response = toResponse(clazz);
-            return Response.created(URI.create("/api/classes/" + clazz.classId().value()))
+            return Response.created(
+                            URI.create("/api/classes/" + clazz.getClassId().value()))
                     .entity(response)
                     .build();
 
@@ -116,9 +117,9 @@ public class ClassResource {
 
     private ClassResponse toResponse(Class clazz) {
         return new ClassResponse(
-                clazz.classId().value().toString(),
-                clazz.name().value(),
-                clazz.gradeLevel().displayValue(),
-                clazz.academicYear().value());
+                clazz.getClassId().value().toString(),
+                clazz.getName().value(),
+                clazz.getGradeLevel().displayValue(),
+                clazz.getAcademicYear().value());
     }
 }
