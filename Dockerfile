@@ -32,12 +32,12 @@ RUN chown -R appuser:appgroup /app
 # Switch to non-root user
 USER appuser
 
-# Expose application port (Quarkus default: 8080)
-EXPOSE 8080
+# Expose application port (configured as 8081 in application.properties)
+EXPOSE 8081
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:8080/q/health || exit 1
+  CMD curl -f http://localhost:8081/q/health || exit 1
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]
